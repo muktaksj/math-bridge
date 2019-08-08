@@ -32,10 +32,10 @@ class App extends React.Component {
     var storage = localStorage.getItem("progress");
     var level = 1;
     var step = 0;
-    var activity="+";
+    var activity = "+";
     var difficulty = 0;
-    console.log("Storage", storage);
-    if (storage && storage!=="undefined") {
+
+    if (storage && storage !== "undefined") {
       var progress = JSON.parse(storage);
       level = progress.level;
       step = progress.step;
@@ -44,13 +44,14 @@ class App extends React.Component {
     storage = null;
 
     storage = localStorage.getItem("settings");
-    if (storage && storage!=="undefined") {
+    if (storage && storage !== "undefined") {
       var settings = JSON.parse(storage);
-      activity = settings.level;
-      difficulty = settings.step;
+      activity = settings.activity;
+      difficulty = settings.difficulty;
     }
 
-    this.state = { level: level, step: step, activity: activity,difficulty: difficulty, isRunning: false, confirmationMessage: "Welcome to Math Bridge! Please click Start to begin.", confirmationButtonText: "Start" };
+    this.state = { level: level, step: step, activity: activity, difficulty: difficulty, isRunning: false, confirmationMessage: "Welcome to Math Bridge! Please click Start to begin.", confirmationButtonText: "Start" };
+    
     this.Problem = React.createRef();
     this.Stage = React.createRef();
     this.Confirmation = React.createRef();

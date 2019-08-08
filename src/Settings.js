@@ -20,7 +20,7 @@ const styles = theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: '80%',
+        maxWidth: '80%',
       },
     group: {
         margin: theme.spacing(1, 0),
@@ -34,12 +34,15 @@ const styles = theme => ({
         fontWeight: 'bold',
         fontSize: '2vw',
         textAlign: 'center'
+    },
+    dropDown: {
+        width:'100%'
     }
 });
 class Settings extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { activity: this.props.activity, difficulty:this.props.difficulty };
+        this.state = { activity: this.props.activity, difficulty: this.props.difficulty };
         this.handleChange = this.handleChange.bind(this);
     }
     handleChange(event) {
@@ -56,12 +59,14 @@ class Settings extends React.Component {
                 <FormControl variant="outlined" className={this.props.classes.formControl}>
                     <InputLabel htmlFor="activity">Activity</InputLabel>
                     <Select
+                        autoWidth={false}
                         value={this.state.activity}
                         onChange={this.handleChange}
                         inputProps={{
                             name: 'activity',
                             id: 'activity',
                         }}
+                        className={this.props.classes.dropDown}
                     >
                         <MenuItem value="+">Addition</MenuItem>
                         <MenuItem value="-">Subtraction</MenuItem>
@@ -73,12 +78,14 @@ class Settings extends React.Component {
                 <FormControl variant="outlined" className={this.props.classes.formControl}>
                     <InputLabel htmlFor="difficulty">Difficulty</InputLabel>
                     <Select
+                        autoWidth={false}
                         value={this.state.difficulty}
                         onChange={this.handleChange}
                         inputProps={{
                             name: 'difficulty',
                             id: 'difficulty',
                         }}
+                        className={this.props.classes.dropDown}
                     >
                         <MenuItem value="0">Single Digit Numbers</MenuItem>
                         <MenuItem value="1">Numbers between 1 to 20</MenuItem>

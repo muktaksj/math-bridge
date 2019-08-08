@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({
     confirmationModal: {
         width: '30%',
-        height: '40%',
         position: 'absolute',
         left: '50%',
         top: '0%',
@@ -34,8 +33,7 @@ const styles = theme => ({
         fontSize: '2vw',
         textAlign: 'center',
         color: '#FFFFFF',
-        marginTop: '40px',
-        marginBottom:'30px'
+        paddingBottom:'20px'
     }
 });
 class Confirmation extends React.Component {
