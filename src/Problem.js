@@ -66,7 +66,7 @@ class Problem extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.activity !== this.props.activity || prevProps.difficulty !== this.props.difficulty) {
+        if (prevProps.activity !== this.props.activity || prevProps.difficulty !== this.props.difficulty || this.props.isRunning !== prevProps.isRunning) {
             this.NewProblem();
         }
     }
@@ -102,7 +102,7 @@ class Problem extends React.Component {
     }
 
     NewProblem() {
-        console.log("New Problem", this.props.activity, this.props.difficulty)
+        if (!this.props.isRunning) return;
         var first = 0;
         var second = 0;
 
