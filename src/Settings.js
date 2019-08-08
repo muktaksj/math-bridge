@@ -12,11 +12,12 @@ const styles = theme => ({
         position: 'absolute',
         left: '1%',
         top: '2%',
-        backgroundColor: '#F9CD2A',
+        backgroundColor: 'rgba(255,255,255,0.3)',
         border: '2px solid #3363C2',
         borderRadius: '10px',
         color: '#3363C2',
         padding: '10px',
+        textAlign:'center'
     },
     formControl: {
         margin: theme.spacing(1),
@@ -30,10 +31,11 @@ const styles = theme => ({
         fontSize: '3vw',
         textAlign: 'center',
     },
-    lable: {
+    label: {
         fontWeight: 'bold',
-        fontSize: '2vw',
-        textAlign: 'center'
+        fontSize: '1.5vw',
+        textAlign: 'center',
+        color:'gray'
     },
     dropDown: {
         width:'100%'
@@ -55,9 +57,8 @@ class Settings extends React.Component {
         return (
             <div className={this.props.classes.settingsContainer}>
                 <div className={this.props.classes.title}>Level {this.props.level}</div>
-                <br/>  
                 <FormControl variant="outlined" className={this.props.classes.formControl}>
-                    <InputLabel htmlFor="activity">Activity</InputLabel>
+                    <div className={this.props.classes.label}>Activity</div>
                     <Select
                         autoWidth={false}
                         value={this.state.activity}
@@ -76,7 +77,7 @@ class Settings extends React.Component {
                 </FormControl>
                 <br/>
                 <FormControl variant="outlined" className={this.props.classes.formControl}>
-                    <InputLabel htmlFor="difficulty">Difficulty</InputLabel>
+                <div className={this.props.classes.label}>Difficulty</div>
                     <Select
                         autoWidth={false}
                         value={this.state.difficulty}

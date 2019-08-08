@@ -72,9 +72,21 @@ class Problem extends React.Component {
     }
 
     HandleKeyPress(event) {
-        var $this = this;
-        console.log(event.key, event.keyCode);
         if (event.key === "Backspace") {
+            this.pushLetter("Back");
+            return false;
+        }
+
+        if ((event.keyCode >= 48 && event.keyCode <= 57)) {
+            this.pushLetter(event.key);
+            return true;
+        }
+        return false;
+    }
+
+    pushLetter(key) {
+        var $this = this;
+        if (key === "Back") {
             if (this.state.answer !== 0) {
                 var temp = this.state.answer.toString().substr(0, this.state.answer.toString().length - 1);
                 if (temp !== "") {
@@ -88,17 +100,12 @@ class Problem extends React.Component {
                     });
                 }
             }
-            return false;
         }
-
-
-        if ((event.keyCode >= 48 && event.keyCode <= 57)) {
-            this.setState({ answer: parseInt(this.state.answer + event.key) }, function () {
+        else {
+            this.setState({ answer: parseInt(this.state.answer + key) }, function () {
                 $this.checkAnswer();
             });
-            return true;
         }
-        return false;
     }
 
     NewProblem() {

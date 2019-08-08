@@ -7,6 +7,7 @@ import Stage from './Stage';
 import Problem from './Problem';
 import Settings from './Settings';
 import Confirmation from './Confirmation';
+import Keypad from './Keypad';
 
 const styles = theme => ({
   appContainer: {
@@ -51,7 +52,7 @@ class App extends React.Component {
     }
 
     this.state = { level: level, step: step, activity: activity, difficulty: difficulty, isRunning: false, confirmationMessage: "Welcome to Math Bridge! Please click Start to begin.", confirmationButtonText: "Start" };
-    
+
     this.Problem = React.createRef();
     this.Stage = React.createRef();
     this.Confirmation = React.createRef();
@@ -115,10 +116,18 @@ class App extends React.Component {
             <Stage level={this.state.level} isRunning={this.state.isRunning} step={this.state.step} onNextAttempt={() => this.NextAttempt()} onNextLevel={() => this.NextLevel()} ref={this.Stage}>
               <Problem ref={this.Problem} isRunning={this.state.isRunning} difficulty={this.state.difficulty} activity={this.state.activity} onCorrectAnswer={() => this.NextStep()} onWrongAnswer={() => this.HandleWrongAnswer()} />
             </Stage>
-            <Settings level={this.state.level} activity={this.state.activity} difficulty={this.state.difficulty} onChange={this.HandleSettingsChange} />
             {!this.state.isRunning &&
               <Confirmation message={this.state.confirmationMessage} buttonText={this.state.confirmationButtonText} onContinue={() => this.setState({ isRunning: true })} />
             }
+            {this.state.isRunning &&
+              <React.Fragment>
+                <Settings level={this.state.level} activity={this.state.activity} difficulty={this.state.difficulty} onChange={this.HandleSettingsChange} />
+                <Keypad onClick={(e) => this.Problem.current.pushLetter(e)} />
+              </React.Fragment>
+
+            }
+
+
           </div>
         </div>
       </BreakpointProvider>
