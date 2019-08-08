@@ -13,22 +13,44 @@ const styles = theme => ({
     width: '100%',
     height: '100vh',
     backgroundColor: '#000000',
-    overflow:'hidden'
+    overflow: 'hidden'
   },
   appBackground: {
-    maxWidth:'100%',
+    maxWidth: '100%',
     height: 'auto',
-    position:'relative'
+    position: 'relative'
   },
   stageContainer: {
     position: 'relative',
-   
+
   }
 });
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { level: 1, step: 7, activity: "+", difficulty: 0, firstNumber: 1, secondNumber: 1,isRunning:false, confirmationMessage:"Welcome to Math Bridge! Please click Start to begin.",confirmationButtonText:"Start" };
+
+    var storage = localStorage.getItem("progress");
+    var level = 1;
+    var step = 0;
+    var activity="+";
+    var difficulty = 0;
+    console.log("Storage", storage);
+    if (storage && storage!=="undefined") {
+      var progress = JSON.parse(storage);
+      level = progress.level;
+      step = progress.step;
+    }
+
+    storage = null;
+
+    storage = localStorage.getItem("settings");
+    if (storage && storage!=="undefined") {
+      var settings = JSON.parse(storage);
+      activity = settings.level;
+      difficulty = settings.step;
+    }
+
+    this.state = { level: level, step: step, activity: activity,difficulty: difficulty, isRunning: false, confirmationMessage: "Welcome to Math Bridge! Please click Start to begin.", confirmationButtonText: "Start" };
     this.Problem = React.createRef();
     this.Stage = React.createRef();
     this.Confirmation = React.createRef();
@@ -37,24 +59,29 @@ class App extends React.Component {
   }
 
   NextStep() {
-    console.log("Next Step");
+    //console.log("Next Step");
     var level = this.state.level;
     var step = this.state.step;
     step++;
     if (step === 8) {
-      console.log("Level Complete");
+      //console.log("Level Complete");
       step = 0;
       level++;
     }
     if (level === 5) {
-      console.log("Game Complete");
+      //console.log("Game Complete");
+      level = 1;
+      step = 0;
     }
-    this.setState({ level: level, step: step });
+
+    var progress = { level: level, step: step };
+    localStorage.setItem("progress", JSON.stringify(progress));
+    this.setState(progress);
     this.Problem.current.NewProblem();
   }
 
   NextAttempt() {
-    console.log("Next Attempt");
+    //console.log("Next Attempt");
     var $this = this;
     this.setState({ step: 0 }, function () {
       $this.Problem.current.NewProblem();
@@ -66,12 +93,15 @@ class App extends React.Component {
     this.Stage.current.dropBlock(0);
   }
   HandleSettingsChange(e) {
-    this.setState({ activity: e.activity, difficulty:e.difficulty });
+    var settings = { activity: e.activity, difficulty: e.difficulty };
+    localStorage.setItem("settings", JSON.stringify(settings));
+    this.setState(settings);
   }
 
   NextLevel() {
-    console.log("Next Level");
-    this.setState({confirmationMessage:'Congratulation! Click Continue to begin Next Level',confirmationButtonText:'Continue', isRunning: false });
+    //console.log("Next Level");
+
+    this.setState({ confirmationMessage: 'Congratulation! Click Continue to begin Next Level', confirmationButtonText: 'Continue', isRunning: false });
   }
 
   render() {
@@ -81,12 +111,12 @@ class App extends React.Component {
         <div className={this.props.classes.appContainer} onKeyPress={this.HandleKeyPress}>
           <div className={this.props.classes.stageContainer}>
             <img className={this.props.classes.appBackground} alt="" src="/img/Background.png" />
-            <Stage level={this.state.level} isRunning={this.state.isRunning} step={this.state.step} onNextAttempt={()=>this.NextAttempt()} onNextLevel={()=>this.NextLevel()} ref={this.Stage}>
-              <Problem ref={this.Problem} isRunning={this.state.isRunning} difficulty={this.state.difficulty} activity={this.state.activity}  onCorrectAnswer={() => this.NextStep()} onWrongAnswer={()=>this.HandleWrongAnswer()}/>
+            <Stage level={this.state.level} isRunning={this.state.isRunning} step={this.state.step} onNextAttempt={() => this.NextAttempt()} onNextLevel={() => this.NextLevel()} ref={this.Stage}>
+              <Problem ref={this.Problem} isRunning={this.state.isRunning} difficulty={this.state.difficulty} activity={this.state.activity} onCorrectAnswer={() => this.NextStep()} onWrongAnswer={() => this.HandleWrongAnswer()} />
             </Stage>
             <Settings level={this.state.level} activity={this.state.activity} difficulty={this.state.difficulty} onChange={this.HandleSettingsChange} />
             {!this.state.isRunning &&
-              <Confirmation message={this.state.confirmationMessage} buttonText={this.state.confirmationButtonText} onContinue={()=>this.setState({isRunning:true})} />
+              <Confirmation message={this.state.confirmationMessage} buttonText={this.state.confirmationButtonText} onContinue={() => this.setState({ isRunning: true })} />
             }
           </div>
         </div>

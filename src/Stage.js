@@ -20,7 +20,7 @@ const styles = theme => ({
 class Stage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { blockPosition: { top: 0, left: 0 } };
+        this.state = { blockPosition: { top: 0, left: 5000 } };
         this.Block = React.createRef()
     }
 
@@ -30,7 +30,7 @@ class Stage extends React.Component {
             this.generateBridge(this.props.step);
         }
         else {
-            this.setState({ blockPosition: { top: 5000, left: 5000 } });
+            this.setState({ blockPosition: { top: 0, left: 5000 } });
 
         }
     }
@@ -38,7 +38,7 @@ class Stage extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         var $this = this;
         if (this.props.step !== prevProps.step) {
-            console.log("Step Upate",prevProps.step, this.props.step);
+            //console.log("Step Upate",prevProps.step, this.props.step);
             if (this.props.step === 0) {
                 if (this.props.level > prevProps.level) {
                     this.StepComplete = true;
@@ -58,22 +58,22 @@ class Stage extends React.Component {
             }
         }
         if (this.props.isRunning !== prevProps.isRunning) {
-            console.log("isRunning Upate", this.props.isRunning);
+            //console.log("isRunning Upate", this.props.isRunning);
             if (this.props.isRunning) {
-                this.setState({ blockPosition: { left: 0, top: 0 } }, function () {
+                this.setState({ blockPosition: { left: 5000, top: 0 } }, function () {
                     $this.generateBridge(this.props.step);
                     $this.moveBlock(this.props.step, this.props.level);
                 });
             }
             else {
                 if (this.BlockInterval) clearInterval(this.BlockInterval);
-                this.setState({ blockPosition: { left: 50000, top: 50000 } });
+                this.setState({ blockPosition: { left: 5000, top: 0 } });
             }
         }
     }
 
     moveBlock(step, level) {
-        console.log("Move Block", step, level);
+        //console.log("Move Block", step, level);
         var $this = this;
         var Steps = 60;
         var Increment = 69 / Steps;
@@ -87,7 +87,7 @@ class Stage extends React.Component {
                 clearInterval($this.BlockInterval);
                 if ($this.StepComplete || $this.LevelComplete) {
                     CurrentTop = 69;
-                    $this.setState({ blockPosition: { left: 0, top: 0 } }, function () {
+                    $this.setState({ blockPosition: { left: 5000, top: 0 } }, function () {
                         if ($this.LevelComplete) {
                             $this.StepComplete = false;
                             $this.LevelComplete = false;
@@ -111,7 +111,7 @@ class Stage extends React.Component {
     }
 
     dropBlock(step) {
-        console.log("Drop Block", step);
+        //console.log("Drop Block", step);
         var CurrentTop = 69;
         var CurrentLeft = step * this.Block.current.width;
         var $this = this;
@@ -124,7 +124,7 @@ class Stage extends React.Component {
             }
             else {
                 clearInterval($this.BlockInterval);
-                $this.setState({ blockPosition: { left: 5000, top:5000 } });
+                $this.setState({ blockPosition: { left: 5000, top:0 } });
                 $this.props.onNextAttempt();
             }
         }, 50);
