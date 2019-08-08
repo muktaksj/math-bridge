@@ -111,7 +111,7 @@ class App extends React.Component {
         <CssBaseline />
         <div className={this.props.classes.appContainer} onKeyPress={this.HandleKeyPress}>
           <div className={this.props.classes.stageContainer}>
-            <img className={this.props.classes.appBackground} alt="" src="/img/Background.png" />
+            <img className={this.props.classes.appBackground} alt="" src="./img/Background.png" />
             <Stage level={this.state.level} isRunning={this.state.isRunning} step={this.state.step} onNextAttempt={() => this.NextAttempt()} onNextLevel={() => this.NextLevel()} ref={this.Stage}>
               <Problem ref={this.Problem} isRunning={this.state.isRunning} difficulty={this.state.difficulty} activity={this.state.activity} onCorrectAnswer={() => this.NextStep()} onWrongAnswer={() => this.HandleWrongAnswer()} />
             </Stage>

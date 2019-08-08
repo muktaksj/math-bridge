@@ -140,7 +140,7 @@ class Stage extends React.Component {
         for (var x = 0; x < step; x++) {
             left = x * this.Block.current.width;
             bridge.push(
-                <img key={"Block" + x} src="/img/CenterBlock.png" alt="" className={this.props.classes.piece} style={{ left: left, top: '69%' }} />
+                <img key={"Block" + x} src="./img/CenterBlock.png" alt="" className={this.props.classes.piece} style={{ left: left, top: '69%' }} />
             )
         }
         this.setState({ bridge: bridge });
@@ -150,7 +150,7 @@ class Stage extends React.Component {
         return (
             <div className={this.props.classes.stage}>
                 {this.state.bridge}
-                <img src="/img/CenterBlock.png" alt="" ref={this.Block} className={this.props.classes.piece} style={this.state.blockPosition} />
+                <img src="./img/CenterBlock.png" alt="" ref={this.Block} className={this.props.classes.piece} style={this.state.blockPosition} />
                 {this.props.children}
             </div>
         );
