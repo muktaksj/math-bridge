@@ -73,7 +73,7 @@ class Problem extends React.Component {
 
     HandleKeyPress(event) {
         var $this = this;
-
+        console.log(event.key, event.keyCode);
         if (event.key === "Backspace") {
             if (this.state.answer !== 0) {
                 var temp = this.state.answer.toString().substr(0, this.state.answer.toString().length - 1);
@@ -92,7 +92,7 @@ class Problem extends React.Component {
         }
 
 
-        if (event.keyCode >= 48 && event.keyCode <= 57) {
+        if ((event.keyCode >= 48 && event.keyCode <= 57)) {
             this.setState({ answer: parseInt(this.state.answer + event.key) }, function () {
                 $this.checkAnswer();
             });
@@ -129,6 +129,12 @@ class Problem extends React.Component {
                 break;
         }
 
+        if (first < second) {
+            var tmp = second;
+            second = first;
+            first = tmp;
+        }
+        
         var problem = first + " " + this.props.activity + " " + second;
         // eslint-disable-next-line
         this.answer = eval(problem);
