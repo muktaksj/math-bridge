@@ -47,6 +47,7 @@ const styles = theme => ({
 });
 class Problem extends React.Component {
     answer = "";
+    previousProblems = {};
 
     constructor(props) {
         super(props);
@@ -85,6 +86,7 @@ class Problem extends React.Component {
     }
 
     pushLetter(key) {
+
         var $this = this;
         if (key === "Back") {
             if (this.state.answer !== 0) {
@@ -101,7 +103,7 @@ class Problem extends React.Component {
                 }
             }
         }
-        else {
+        else if (this.state.answer===0 || this.state.answer.toString().length < this.answer.toString().length) {
             this.setState({ answer: parseInt(this.state.answer + key) }, function () {
                 $this.checkAnswer();
             });
@@ -112,6 +114,7 @@ class Problem extends React.Component {
         if (!this.props.isRunning) return;
         var first = 0;
         var second = 0;
+
 
         switch (parseInt(this.props.difficulty)) {
             case 1:
@@ -141,11 +144,37 @@ class Problem extends React.Component {
             second = first;
             first = tmp;
         }
-        
+
+        if (this.props.activity === "/") {
+            var perfectDivisors = [];
+            for (var x = 2; x < first; x++) {
+                if (first % x === 0) {
+                    perfectDivisors.push(x);
+                }
+            }
+            if (perfectDivisors.length > 0) {
+                var index = this.getRandomNumber(0, perfectDivisors.length);
+                second = perfectDivisors[index];
+                if (typeof second == 'undefined') {
+                    this.NewProblem();
+                    return;
+                }
+            }
+            else {
+                this.NewProblem();
+                return;
+            }
+        }
+
         var problem = first + " " + this.props.activity + " " + second;
+        if (this.previousProblems[escape(problem)]) {
+            this.NewProblem();
+            return;
+        }
+        this.previousProblems[escape(problem)] = true;
         // eslint-disable-next-line
         this.answer = eval(problem);
-        this.setState({ problem: problem });
+        this.setState({ problem: problem, answer: 0 });
     }
 
     getRandomNumber(fromNumber, toNumber) {

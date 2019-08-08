@@ -35,6 +35,15 @@ class Stage extends React.Component {
         }
     }
 
+    Reset() {
+        var $this = this;
+        if(this.BlockInterval) clearInterval(this.BlockInterval);
+        this.setState({ blockPosition: { top: 0, left: 5000 } }, function () {
+            $this.generateBridge(this.props.step);
+            $this.moveBlock(this.props.step, this.props.level);
+        });
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         var $this = this;
         if (this.props.step !== prevProps.step) {

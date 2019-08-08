@@ -83,7 +83,7 @@ class App extends React.Component {
   }
 
   NextAttempt() {
-    //console.log("Next Attempt");
+    console.log("Next Attempt");
     var $this = this;
     this.setState({ step: 0 }, function () {
       $this.Problem.current.NewProblem();
@@ -95,9 +95,14 @@ class App extends React.Component {
     this.Stage.current.dropBlock(0);
   }
   HandleSettingsChange(e) {
-    var settings = { activity: e.activity, difficulty: e.difficulty };
+    console.log("Settings Updated");
+    var $this = this;
+    var settings = { activity: e.activity, difficulty: e.difficulty};
     localStorage.setItem("settings", JSON.stringify(settings));
-    this.setState(settings);
+    this.setState({ activity: e.activity, difficulty: e.difficulty, level: 1, step: 0 }, function () {
+      $this.Problem.current.NewProblem();
+      $this.Stage.current.Reset();
+    });
   }
 
   NextLevel() {
@@ -124,10 +129,7 @@ class App extends React.Component {
                 <Settings level={this.state.level} activity={this.state.activity} difficulty={this.state.difficulty} onChange={this.HandleSettingsChange} />
                 <Keypad onClick={(e) => this.Problem.current.pushLetter(e)} />
               </React.Fragment>
-
             }
-
-
           </div>
         </div>
       </BreakpointProvider>
